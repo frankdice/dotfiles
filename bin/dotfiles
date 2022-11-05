@@ -1,0 +1,17 @@
+#!/bin/bash
+
+SETTINGS_FILE=$HOME/.config/dotfiles/settings
+
+if [ -f $SETTINGS_FILE ];then
+    . $SETTINGS_FILE
+fi
+
+
+if declare -f "d__$1" >/dev/null 2>&1; then
+    func="d__$1" # Grab function name
+    shift
+    "$func" "$@"
+else
+    echo "Subcommand $1 not recognized"
+    exit 1
+fi

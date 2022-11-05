@@ -1,6 +1,14 @@
 #!/bin/bash
 
-DOTFILES_PATH="$HOME/.config/dotfiles"
+SETTINGS_FILE=$HOME/.config/dotfiles/settings
+
+if [ -f $SETTINGS_FILE ];then
+    . $SETTINGS_FILE
+else
+    DOTFILES_PATH="$HOME/.config/dotfiles"
+    DOTFILES_SSH_KEY="$HOME/.ssh/id_rsa_dotfiles"
+fi
+
 
 # Install the important stuff first
 #apt-get update
@@ -32,15 +40,15 @@ then
 fi
 
 # If encrypted key doesn't exist, download it
-[[ ! -f $HOME/.ssh/id_rsa_dotfiles.gpg ]] && wget https://github.com/frankdice/dotfiles/raw/main/id_rsa.gpg -O $HOME/.ssh/id_rsa_dotfiles.gpg
+[[ ! -f $DOTFILES_SSH_KEY.gpg ]] && wget https://github.com/frankdice/dotfiles/raw/main/id_rsa.gpg -O $DOTFILES_SSH_KEY.gpg
 
 # Decrypt the private key - User Interaction
-[[ ! -f $HOME/.ssh/id_rsa_dotfiles  ]] && gpg --output $HOME/.ssh/id_rsa_dotfiles --decrypt $HOME/.ssh/id_rsa_dotfiles.gpg
+[[ ! -f $DOTFILES_SSH_KEY  ]] && gpg --output $DOTFILES_SSH_KEY --decrypt $DOTFILES_SSH_KEY.gpg
 
 # .ssh permissions for dotfiles
-if ! [[ $(stat -c "%A" ~/.ssh/id_rsa_dotfiles) == "-rw-------" ]]
+if ! [[ $(stat -c "%A" $DOTFILES_SSH_KEY) == "-rw-------" ]]
 then
-    chmod 600 $HOME/.ssh/id_rsa_dotfiles*
+    chmod 600 $DOTFILES_SSH_KEY*
 fi
 
 # git clone my bootstrap repo
@@ -48,7 +56,7 @@ fi
 
 if [[ ! -d $DOTFILES_PATH ]] 
 then
-    GIT_SSH_COMMAND="ssh -i $HOME/.ssh/id_rsa_dotfiles" git clone git@github.com:frankdice/dotfiles.git $DOTFILES_PATH
+    GIT_SSH_COMMAND="ssh -i $DOTFILES_SSH_KEY" git clone git@github.com:frankdice/dotfiles.git $DOTFILES_PATH
 else
 #    cd $HOME/.config/dotfiles
 #    git pull

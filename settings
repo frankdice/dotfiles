@@ -1,0 +1,5 @@
+# Settings file for global/shared variables
+
+# These are also in bootstrap.sh
+DOTFILES_PATH="$HOME/.config/dotfiles"
+DOTFILES_SSH_KEY="$HOME/.ssh/id_rsa_dotfiles"
