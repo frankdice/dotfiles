@@ -11,8 +11,8 @@ fi
 
 
 # Install the important stuff first
-#apt-get update
-#apt-get install -y git vim gpg wget fzf # 
+apt-get update
+apt-get install -y git vim gpg wget fzf # 
 
 symlinks () {
     [[ ! -L "$1" &&  -d "$1" ]] && echo "$1 folder already exists. Please move and re-bootstrap" && return
