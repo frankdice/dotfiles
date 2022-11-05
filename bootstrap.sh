@@ -59,7 +59,7 @@ then
     GIT_SSH_COMMAND="ssh -i $DOTFILES_SSH_KEY" git clone git@github.com:frankdice/dotfiles.git $DOTFILES_PATH
 fi
 
-$HOME/bin/dotfiles setup
+$DOTFILES_PATH/bin/dotfiles setup
 
 # local symlinks
 #symlinks "$HOME/bin" "bin"
