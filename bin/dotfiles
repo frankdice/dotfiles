@@ -9,7 +9,8 @@ fi
 d__diff () { cd $DOTFILES_PATH && git diff; }
 d__status () { cd $DOTFILES_PATH && git status; }
 d__add () { cd $DOTFILES_PATH && git add $@; }
-d__commit () { cd $DOTFILES_PATH && git commit $@; }
+d__commit () { cd $DOTFILES_PATH && git commit "$@"; }
+d__push () { cd $DOTFILES_PATH && GIT_SSH_COMMAND="ssh -i $DOTFILES_SSH_KEY" git push $@; }
 
 
 if declare -f "d__$1" >/dev/null 2>&1; then
