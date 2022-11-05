@@ -6,6 +6,11 @@ if [ -f $SETTINGS_FILE ];then
     . $SETTINGS_FILE
 fi
 
+d__diff () { cd $DOTFILES_PATH && git diff; }
+d__status () { cd $DOTFILES_PATH && git status; }
+d__add () { cd $DOTFILES_PATH && git add $@; }
+d__commit () { cd $DOTFILES_PATH && git commit $@; }
+
 
 if declare -f "d__$1" >/dev/null 2>&1; then
     func="d__$1" # Grab function name
