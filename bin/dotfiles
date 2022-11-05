@@ -12,6 +12,29 @@ d__add () { cd $DOTFILES_PATH && git add $@; }
 d__commit () { cd $DOTFILES_PATH && git commit "$@"; }
 d__push () { cd $DOTFILES_PATH && GIT_SSH_COMMAND="ssh -i $DOTFILES_SSH_KEY" git push $@; }
 
+symlinks () {
+    [[ ! -L "$1" &&  -d "$1" ]] && echo "$1 folder already exists. Please move and re-bootstrap" && return
+    if [[ $(readlink $1) != "$DOTFILES_PATH/$2" ]]
+    then
+        if [[ -f $1 ]]
+        then
+            echo "Moving $1 to $1.bak"
+            mv $1 $1.bak
+        fi
+
+        ln -fs $DOTFILES_PATH/$2 $1
+    fi
+
+}
+
+d__setup () {
+    # FIgure out how to obfuscate this into the settings, array of arrays in settings?
+    symlinks "$HOME/bin" "bin"
+    symlinks "$HOME/.gitconfig" "dot/gitconfig"
+    symlinks "$HOME/.bash_aliases" "dot/bash_aliases"
+    # Also, yum install seperately somehow
+}
+
 
 if declare -f "d__$1" >/dev/null 2>&1; then
     func="d__$1" # Grab function name

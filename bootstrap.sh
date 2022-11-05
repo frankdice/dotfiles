@@ -12,7 +12,7 @@ fi
 
 # Install the important stuff first
 #apt-get update
-#apt-get install -y git vim gpg wget
+#apt-get install -y git vim gpg wget fzf # 
 
 symlinks () {
     [[ ! -L "$1" &&  -d "$1" ]] && echo "$1 folder already exists. Please move and re-bootstrap" && return
@@ -57,12 +57,11 @@ fi
 if [[ ! -d $DOTFILES_PATH ]] 
 then
     GIT_SSH_COMMAND="ssh -i $DOTFILES_SSH_KEY" git clone git@github.com:frankdice/dotfiles.git $DOTFILES_PATH
-else
-#    cd $HOME/.config/dotfiles
-#    git pull
-    echo "Updating existing dotfiles repo"
 fi
 
+$HOME/bin/dotfiles setup
+
 # local symlinks
-symlinks "$HOME/.gitconfig" "dot/gitconfig"
-symlinks "$HOME/bin" "bin"
+#symlinks "$HOME/bin" "bin"
+#symlinks "$HOME/.gitconfig" "dot/gitconfig"
+#symlinks "$HOME/.bash_aliases" "dot/bash_aliases"
